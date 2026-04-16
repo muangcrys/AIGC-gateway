@@ -13,3 +13,31 @@ In addition, the system also requires a number of messaging and database service
 - DynamoDB: used for storing the queries and the results of the image and text analysis.
 
 # Getting Started
+To run the complete system, you need to set up all the components and services.
+
+## Prerequisites
+To run RabbitMQ, postgreSQL, and DynamoDB, you can use Docker. Make sure you have Docker installed on your machine.
+The specifications are supplied in the `docker-compose.yml` file. Simply run the following command in the terminal:
+```bash
+docker-compose up
+```
+This will start all the required services.
+
+## Components Setup
+Each repository on GitHub contains a docker image that you can use to run the components. The images are listed under
+the packages section of the respective repositories. Information about how to pull the images are also available in the page.
+
+If you prefer to create the images yourself, each repository contains a `Dockerfile` that you can use to build the image.
+Additionally, the commands to build and run the images are also available in the respective repositories, inside `docker_commands.sh` files.
+The commands will create the images and run the containers with default variables (not intended for production). You can modify the configurations
+through environment variables.
+
+## External Resources
+The system relies on the following external resources:
+- `image-consumer` relies on the [`Organika/sdxl-detector`](https://huggingface.co/Organika/sdxl-detector) model from Hugging Face for image analysis. If you want to build the image yourself, you must download the model (e.g. through `huggingface-cli`) and place it under `./sdxl-detector` directory.
+- `text-consumer` relies on the [`fakespot/roberta-base-ai-text-detection-v1`](https://huggingface.co/fakespot-ai/roberta-base-ai-text-detection-v1) model. If you want to build the image yourself, you must download the model and place it under `./fakespot-ai-roberta-base` directory.
+
+These directory names are fixed (see the respective `Dockerfile`s) and must be in the same directory as the `Dockerfile`s when you build the images.
+
+# Using the System
+Once you have all the components and services running, you can access the frontend web application at `http://localhost:80` (if you are using the default configurations). From there, you can register an account, log in, and start using the AIGC Detector system to analyze images and text.
